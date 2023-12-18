@@ -1,0 +1,161 @@
+L:=LieAlgebra("E8",GF(2):Isogeny:="SC");
+
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup("E8"));
+B:=Basis(L);
+
+
+orbs:=[
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[10]+Rv[11]+Rv[5]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[3]+Rv[10]+Rv[12]+Rv[13]+Rv[14]+Rv[8]+Rv[2],
+Rv[9]+Rv[10]+Rv[11]+Rv[12]+Rv[19]+Rv[13]+Rv[7]+Rv[8],
+Rv[9]+Rv[10]+Rv[11]+Rv[12]+Rv[19]+Rv[13]+Rv[14]+Rv[15],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[2],
+Rv[9]+Rv[17]+Rv[19]+Rv[18]+Rv[20]+Rv[21]+Rv[7]+Rv[8],
+Rv[9]+Rv[17]+Rv[19]+Rv[18]+Rv[20]+Rv[26]+Rv[14]+Rv[15],
+Rv[1]+Rv[3]+Rv[11]+Rv[10]+Rv[5]+Rv[6]+Rv[7],
+Rv[16]+Rv[17]+Rv[24]+Rv[18]+Rv[20]+Rv[33]+Rv[21]+Rv[8],
+Rv[17]+Rv[20]+Rv[21]+Rv[19]+Rv[18]+Rv[22]+Rv[1]+Rv[54],
+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[16]+Rv[23]+Rv[24]+Rv[25]+Rv[20]+Rv[38]+Rv[14]+Rv[15],
+Rv[1]+Rv[2]+Rv[3]+Rv[10]+Rv[12]+Rv[13]+Rv[14],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[8]+Rv[2],
+Rv[5]+Rv[12]+Rv[49]+Rv[9]+Rv[26]+Rv[27]+Rv[15]+Rv[8],
+Rv[8]+Rv[7]+Rv[6]+Rv[5]+Rv[10]+Rv[11]+Rv[2],
+Rv[23]+Rv[24]+Rv[25]+Rv[26]+Rv[28]+Rv[27]+Rv[15]+Rv[22],
+Rv[1]+Rv[10]+Rv[11]+Rv[18]+Rv[25]+Rv[13]+Rv[7],
+Rv[1]+Rv[3]+Rv[5]+Rv[10]+Rv[11]+Rv[6]+Rv[8],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[8],
+Rv[8]+Rv[14]+Rv[13]+Rv[12]+Rv[11]+Rv[3]+Rv[2],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[2],
+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[2],
+Rv[31]+Rv[35]+Rv[30]+Rv[33]+Rv[34]+Rv[32]+Rv[15]+Rv[22],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[3]+Rv[5]+Rv[10]+Rv[11]+Rv[6],
+Rv[1]+Rv[17]+Rv[19]+Rv[18]+Rv[20]+Rv[27]+Rv[14],
+Rv[1]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[7]+Rv[6]+Rv[5]+Rv[10]+Rv[11]+Rv[2],
+Rv[13]+Rv[14]+Rv[16]+Rv[17]+Rv[19]+Rv[18]+Rv[44],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7],
+Rv[30]+Rv[33]+Rv[40]+Rv[45]+Rv[35]+Rv[53]+Rv[60]+Rv[36],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[7]+Rv[2],
+Rv[16]+Rv[17]+Rv[31]+Rv[18]+Rv[20]+Rv[21]+Rv[27],
+Rv[19]+Rv[10]+Rv[1]+Rv[9]+Rv[6]+Rv[13]+Rv[8],
+Rv[14]+Rv[13]+Rv[12]+Rv[11]+Rv[3]+Rv[2],
+Rv[1]+Rv[3]+Rv[12]+Rv[10]+Rv[5]+Rv[7]+Rv[8],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[8],
+Rv[1]+Rv[3]+Rv[4]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[2],
+Rv[19]+Rv[10]+Rv[1]+Rv[9]+Rv[6]+Rv[13],
+Rv[8]+Rv[17]+Rv[4]+Rv[21]+Rv[27]+Rv[18]+Rv[14],
+Rv[3]+Rv[4]+Rv[5]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[3]+Rv[12]+Rv[10]+Rv[5]+Rv[7],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[7]+Rv[8],
+Rv[1]+Rv[5]+Rv[6]+Rv[7]+Rv[8]+Rv[2],
+Rv[1]+Rv[3]+Rv[12]+Rv[10]+Rv[5],
+Rv[1]+Rv[3]+Rv[4]+Rv[6]+Rv[7]+Rv[8],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[7],
+Rv[3]+Rv[10]+Rv[12]+Rv[5]+Rv[7]+Rv[8],
+Rv[3]+Rv[4]+Rv[5]+Rv[2]+Rv[7],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[7]+Rv[2],
+Rv[1]+Rv[3]+Rv[4]+Rv[5],
+Rv[7]+Rv[20]+Rv[33]+Rv[19]+Rv[10]+Rv[14],
+Rv[1]+Rv[3]+Rv[4]+Rv[6]+Rv[7],
+Rv[3]+Rv[10]+Rv[12]+Rv[5]+Rv[7],
+Rv[1]+Rv[3]+Rv[4]+Rv[6]+Rv[8],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[8]+Rv[2],
+Rv[3]+Rv[4]+Rv[5]+Rv[2],
+Rv[3]+Rv[10]+Rv[12]+Rv[5],
+Rv[1]+Rv[3]+Rv[4]+Rv[6],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[8],
+Rv[1]+Rv[3]+Rv[5]+Rv[6],
+Rv[1]+Rv[3]+Rv[5]+Rv[7]+Rv[2],
+Rv[1]+Rv[3]+Rv[4],
+Rv[1]+Rv[3]+Rv[5]+Rv[7],
+Rv[1]+Rv[3]+Rv[5],
+Rv[1]+Rv[4]+Rv[6]+Rv[8],
+Rv[1]+Rv[3],
+Rv[1]+Rv[4]+Rv[6],
+Rv[1]+Rv[4],
+Rv[1]
+];
+
+labels:=[ "E_{8}", "E_{8}(a_{1})", "E_{8}(a_{2})", "E_{8}(a_{3})", "E_{8}(a_{4})", 
+  "E_{7}", "E_{8}(b_{4})", "E_{8}(a_{5})", "E_{7}(a_{1})", "E_{8}(b_{5})", 
+  "(D_{7})^{(2)}", "D_{7}", "E_{8}(a_{6})", "E_{7}(a_{2})", "E_{6}+A_{1}", 
+  "(D_{7}(a_{1}))^{(2)}", "D_{7}(a_{1})", "E_{8}(b_{6})", "E_{7}(a_{3})", 
+  "E_{6}(a_{1})+A_{1}", "A_{7}", "D_{7}(a_{2})", "E_{6}", 
+  "D_{6}", "(D_{5}+A_{2})^{(2)}", "D_{5}+A_{2}", "E_{6}(a_{1})", 
+  "E_{7}(a_{4})", "A_{6}+A_{1}", "D_{6}(a_{1})", "(A_{6})^{(2)}", "A_{6}", 
+  "E_{8}(a_{7})", "D_{5}+A_{1}", "E_{7}(a_{5})", "E_{6}(a_{3})+A_{1}", 
+  "D_{6}(a_{2})", "D_{5}(a_{1})+A_{2}", "A_{5}+A_{1}", "A_{4}+A_{3}", 
+  "D_{5}", "E_{6}(a_{3})", "(D_{4}+A_{2})^{(2)}", "D_{4}+A_{2}", 
+  "A_{4}+A_{2}+A_{1}", "D_{5}(a_{1})+A_{1}", "A_{5}", "A_{4}+A_{2}", 
+  "A_{4}+2A_{1}", "D_{5}(a_{1})", "2A_{3}", "A_{4}+A_{1}", 
+  "D_{4}(a_{1})+A_{2}", "D_{4}+A_{1}", "A_{3}+A_{2}+A_{1}", "A_{4}", 
+  "(A_{3}+A_{2})^{(2)}", "A_{3}+A_{2}", "D_{4}(a_{1})+A_{1}", "A_{3}+2A_{1}", 
+  "2A_{2}+2A_{1}", "D_{4}", "D_{4}(a_{1})", "A_{3}+A_{1}", "2A_{2}+A_{1}", 
+  "2A_{2}", "A_{2}+3A_{1}", "A_{3}", "A_{2}+2A_{1}", "A_{2}+A_{1}", "4A_{1}", 
+  "A_{2}", "3A_{1}", "2A_{1}", "A_{1}"];
+
+
+
+for i in [1..#orbs] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                          for t in [0,1] do
+                            for u in [0,1] do
+                              h:=a*B[121]+b*B[122]+c*B[123]+d*B[124]+e*B[125]+f*B[126]+t*B[127]+u*B[128];
+                              if orbs[i]*h eq orbs[i] then 
+                                // h; 
+                                continue i; 
+                              end if;
+                            end for;
+                          end for; 
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 
+
+
+for i in [1..#orbs] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                          for t in [0,1] do
+                            for u in [0,1] do
+                              h:=a*B[121]+b*B[122]+c*B[123]+d*B[124]+e*B[125]+f*B[126]+t*B[127]+u*B[128];
+                              if orbs[i]*h eq orbs[i] then 
+                                for j in [1..120] do
+                                    if h*Rv[j] eq Rv[j] and Rv[j]*orbs[i] eq 0 and Dimension(sub<L|h,orbs[i],Rv[j]>) eq 3 then 
+                                      // "woooo"; 
+                                      // i;
+                                      // h;  
+                                      continue i; 
+                                    end if;  
+                                end for; 
+                              end if;
+                            end for;
+                          end for; 
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 

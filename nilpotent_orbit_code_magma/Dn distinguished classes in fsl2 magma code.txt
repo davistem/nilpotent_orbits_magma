@@ -1,0 +1,315 @@
+checkfsl2:=function(e,f)
+h:=e*f;
+if h*e eq e and h*f eq f then return true; end if;
+return false;
+end function;
+
+TYPE:="D13";
+m:=13;
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L);
+R:=Roots(CoxeterGroup(TYPE));
+e:=&+[B[i]:i in [1..m-1]];
+
+
+
+e0:=e+B[13];
+f0:=B[158]+B[159]+B[162]+B[163]+B[166]+B[167];
+h0:=e0*f0;
+checkfsl2(e0,f0); 
+
+
+
+
+
+TYPE:="D13";
+m:=13;
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L); //This means B correpsonds to the positive roots then the negative roots in the usual order
+BL:=Basis(L);
+H:=[BL[j] : j in [(#B/2)+1..(#B/2)+m] ];
+R:=Roots(CoxeterGroup(TYPE));
+e0:=&+[B[i]:i in [1..m-1]];
+
+e:=[
+e0+B[13],
+e0+B[Position(R,(R[13]+R[11]+R[10]))],
+e0+B[Position(R,(R[13]+R[11]+R[10]+R[9]+R[8]))],
+e0+B[Position(R,(R[13]+R[11]+R[10]+R[9]+R[8]+R[7]+R[6]))],
+e0+B[Position(R,(R[13]+R[11]+R[10]+R[9]+R[8]+R[7]+R[6]+R[5]+R[4]))],
+e0+B[Position(R,(R[13]+R[11]+R[10]+R[9]+R[8]+R[7]+R[6]+R[5]+R[4]+R[3]+R[2]))]
+];
+
+f:=[
+B[158]+B[159]+B[162]+B[163]+B[166]+B[167],
+B[158]+B[159]+B[162]+B[163]+B[166]+B[167]+B[13],
+B[158]+B[159]+B[162]+B[163]+B[166]+B[167],
+B[158]+B[159]+B[162]+B[163]+B[166]+B[167]+B[57]+B[58]+B[59], 
+B[158]+B[159]+B[162]+B[163]+B[166]+B[167],
+B[158]+B[159]+B[162]+B[163]+B[166]+B[167]+B[93]+B[94]+B[95]+B[96]+B[97]  
+];
+
+for i in [1..6] do 
+	checkfsl2(e[i],f[i]);
+	e[i]*f[i] eq H[2]+H[3]+H[6]+H[7]+H[10]+H[11];
+end for; 
+
+
+
+
+
+TYPE:="D9";
+m:=9;
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L);
+R:=Roots(CoxeterGroup(TYPE));
+e:=&+[B[i]:i in [1..m-1]];
+
+disclass:=[
+e+B[9],
+e+B[Position(R,(R[9]+R[7]+R[6]))],
+e+B[Position(R,(R[9]+R[7]+R[6]+R[5]+R[4]))],
+e+B[Position(R,(R[9]+R[7]+R[6]+R[5]+R[4]+R[3]+R[2]))]
+];
+
+f:=[
+B[74]+B[75]+B[78]+B[79],
+B[74]+B[75]+B[78]+B[79]+B[9],
+B[74]+B[75]+B[78]+B[79],
+B[74]+B[75]+B[78]+B[79]+B[37]+B[38]+B[39]
+];
+
+for i in [1..4] do 
+	checkfsl2(disclass[i],f[i]);
+end for; 
+
+
+
+
+
+
+
+TYPE:="D12";
+m:=12;
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L); //This means B correpsonds to the positive roots then the negative roots in the usual order
+BL:=Basis(L);
+H:=[BL[j] : j in [(#B/2)+1..(#B/2)+m] ];
+R:=Roots(CoxeterGroup(TYPE));
+e0:=&+[B[i]:i in [1..m-1]];
+
+e:=[
+e0+B[12],
+e0+B[Position(R,(R[12]+R[10]+R[9]))],
+e0+B[Position(R,(R[12]+R[10]+R[9]+R[8]+R[7]))],
+e0+B[Position(R,(R[12]+R[10]+R[9]+R[8]+R[7]+R[6]+R[5]))],
+e0+B[Position(R,(R[12]+R[10]+R[9]+R[8]+R[7]+R[6]+R[5]+R[4]+R[3]))],
+e0+B[Position(R,(R[12]+R[10]+R[9]+R[8]+R[7]+R[6]+R[5]+R[4]+R[3]+R[2]+R[1]))]
+];
+
+f:=[
+B[133]+B[134]+B[137]+B[138]+B[141]+B[142],
+B[133]+B[134]+B[137]+B[138]+B[141]+B[142]+B[12],
+B[133]+B[134]+B[137]+B[138]+B[141]+B[142],
+B[133]+B[134]+B[137]+B[138]+B[141]+B[142]+B[52]+B[53]+B[54], 
+B[133]+B[134]+B[137]+B[138]+B[141]+B[142],
+B[133]+B[134]+B[137]+B[138]+B[141]+B[142]+B[84]+B[85]+B[86]+B[87]+B[88]  
+];
+
+for i in [1..6] do 
+	checkfsl2(e[i],f[i]);
+	e[i]*f[i] eq H[1]+H[2]+H[5]+H[6]+H[9]+H[10];
+end for; 
+
+
+
+
+
+//3 mod 4
+
+TYPE:="D15";
+m:=15;
+
+
+TYPE:="D19";
+m:=19;
+
+
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L); //This means B correpsonds to the positive roots then the negative roots in the usual order
+BL:=Basis(L);
+H:=[BL[j] : j in [(#B/2)+1..(#B/2)+m] ];
+R:=Roots(CoxeterGroup(TYPE));
+e0:=&+[B[i]:i in [1..m-1]];
+e:=[];
+for l in [-m..-Ceiling((m + 1) / 2)-1] do
+	nl:=-l;
+	rt:=R[m];
+	for i in [2..2*(m-nl)+1] do
+		rt:=rt+R[m-i];
+	end for; 
+	R[Position(R,rt)];
+	Append(~e,e0+B[Position(R,rt)]);
+end for; 
+
+
+f0:=&+[B[i+Integers()!(#B/2)] : i in [1..m] | i mod 4 in [1,2]];
+
+f:=[f0];
+
+for l in [-m+1..-Ceiling((m + 1) / 2)-1] do
+	nl:=-l;
+	if (nl mod 2) eq 0 then
+		Append(~f,f0);
+	else
+		ht:=2*(m-nl)-1;
+		rt:=R[m];
+		for i in [2..ht] do
+			rt:=rt+R[m-i];
+		end for;
+		pos1:=Position(R,rt);
+		pos1;
+		fnew:=f0;
+		for j in [1..(m-nl)] do
+			R[pos1-1+j];
+			fnew:=fnew+B[pos1-1+j];
+		end for;
+		Append(~f,fnew);
+	end if; 
+end for; 
+
+
+for i in [1..#e] do 
+	checkfsl2(e[i],f[i]);
+	e[i]*f[i] eq H[1]+H[2]+H[5]+H[6]+H[9]+H[10]+H[13]+H[14];
+end for; 
+
+
+
+
+//0 mod 4
+
+
+TYPE:="D8";
+m:=8;
+
+TYPE:="D16";
+m:=16;
+
+
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L); //This means B correpsonds to the positive roots then the negative roots in the usual order
+BL:=Basis(L);
+H:=[BL[j] : j in [(#B/2)+1..(#B/2)+m] ];
+R:=Roots(CoxeterGroup(TYPE));
+e0:=&+[B[i]:i in [1..m-1]];
+e:=[];
+for l in [-m..-Ceiling((m + 1) / 2)] do
+	nl:=-l;
+	rt:=R[m];
+	for i in [2..2*(m-nl)+1] do
+		rt:=rt+R[m-i];
+	end for; 
+	R[Position(R,rt)];
+	Append(~e,e0+B[Position(R,rt)]);
+end for; 
+
+
+f0:=&+[B[i+Integers()!(#B/2)] : i in [1..m] | i mod 4 in [1,2]];
+
+f:=[];
+
+for l in [-m..-Ceiling((m + 1) / 2)] do
+	nl:=-l;
+	if (nl mod 2) eq 0 then
+		Append(~f,f0);
+	else
+		ht:=2*(m-nl)-1;
+		rt:=R[m];
+		for i in [2..ht] do
+			rt:=rt+R[m-i];
+		end for;
+		pos1:=Position(R,rt);
+		pos1;
+		fnew:=f0;
+		for j in [1..(m-nl)] do
+			R[pos1-1+j];
+			fnew:=fnew+B[pos1-1+j];
+		end for;
+		Append(~f,fnew);
+	end if; 
+end for; 
+
+
+for i in [1..#e] do 
+	checkfsl2(e[i],f[i]);
+end for; 
+
+
+
+
+
+//1 mod 4
+
+
+TYPE:="D9";
+m:=9;
+
+
+
+P:=PolynomialRing(GF(2),1);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+_,B:=RootSystem(L); //This means B correpsonds to the positive roots then the negative roots in the usual order
+BL:=Basis(L);
+H:=[BL[j] : j in [(#B/2)+1..(#B/2)+m] ];
+R:=Roots(CoxeterGroup(TYPE));
+e0:=&+[B[i]:i in [1..m-1]];
+e:=[];
+for l in [-m..-Ceiling((m + 1) / 2)-1] do
+	nl:=-l;
+	rt:=R[m];
+	for i in [2..2*(m-nl)+1] do
+		rt:=rt+R[m-i];
+	end for; 
+	R[Position(R,rt)];
+	Append(~e,e0+B[Position(R,rt)]);
+end for; 
+
+
+f0:=&+[B[i+Integers()!(#B/2)] : i in [1..m] | i mod 4 in [2,3]];
+
+f:=[];
+
+for l in [-m..-Ceiling((m + 1) / 2)-1] do
+	nl:=-l;
+	if (nl mod 2) eq 1 then
+		Append(~f,f0);
+	else
+		ht:=2*(m-nl)-1;
+		rt:=R[m];
+		for i in [2..ht] do
+			rt:=rt+R[m-i];
+		end for;
+		pos1:=Position(R,rt);
+		pos1;
+		fnew:=f0;
+		for j in [1..(m-nl)] do
+			R[pos1-1+j];
+			fnew:=fnew+B[pos1-1+j];
+		end for;
+		Append(~f,fnew);
+	end if; 
+end for; 
+
+
+for i in [1..#e] do 
+	checkfsl2(e[i],f[i]);
+end for; 
+
+

@@ -1,0 +1,243 @@
+TYPE:="D6";
+n:=6;
+P<[F]>:=PolynomialRing(GF(2),100);
+G< a, b > := FundamentalGroup(TYPE);
+_,i1:=sub<G|a>;
+_,i2:=sub<G|b>;
+_,i3:=sub<G|a*b>;
+
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:= i1);
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:= i2);
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:= i3);
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:="Ad");
+
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup(TYPE));
+B:=Basis(L);
+
+Udim:=Integers()!(#Rv/2);
+
+
+orbs:=[
+
+Rv[1]+Rv[30]+Rv[3]+Rv[4]+Rv[5]+Rv[15],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[4]+Rv[5]+Rv[15],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[4]+Rv[5]+Rv[22],
+
+Rv[2]+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+
+Rv[2]+Rv[3]+Rv[4]+Rv[5]+Rv[15],
+
+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+
+Rv[3]+Rv[4]+Rv[5]+Rv[15],
+
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[15],  
+
+Rv[4]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[4]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[2]+Rv[4]+Rv[5]+Rv[6],
+
+Rv[5]+Rv[6],
+
+Rv[1]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[3]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[2]+Rv[5]+Rv[6],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[5]+Rv[6],
+
+Rv[1],
+
+Rv[1]+Rv[3],
+
+Rv[1]+Rv[3]+Rv[5], 
+
+Rv[1]+Rv[3]+Rv[6],
+
+Rv[1]+Rv[2],
+
+Rv[1]+Rv[2]+Rv[4],
+
+Rv[1]+Rv[2]+Rv[4]+Rv[5],
+
+Rv[1]+Rv[2]+Rv[3],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[5],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[6],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[4],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[4]+Rv[5],
+
+Rv[1]+Rv[2]+Rv[3]+Rv[4]+Rv[6]
+
+];
+
+
+e:=orbs[1];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+e:=orbs[2];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[3];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+
+e:=orbs[4];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+
+e:=orbs[8];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[10];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[16];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[18];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[21];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[22];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+e:=orbs[27];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[28];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+e:=orbs[30];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+e:=orbs[31];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+
+
+

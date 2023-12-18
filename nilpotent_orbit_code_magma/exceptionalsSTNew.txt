@@ -1,0 +1,1520 @@
+#########################################
+## CHANGE TYPE HERE
+#########################################
+
+#TYPE := "G2";
+#TYPE := "F4";
+#TYPE := "E6";
+#TYPE := "E7";
+TYPE := "E8";
+#TYPE := "D9";
+#type:="D";
+#rk:=9;
+
+############################################
+# Initialise Data for Type (do not change)
+############################################
+p:=5;
+#field := GF(p);
+type := [TYPE[1]];
+rk := EvalString([TYPE[2]]); #the rank of g
+g_rat := SimpleLieAlgebra(type,rk,Rationals); #rational version for root calcs
+#g_field := SimpleLieAlgebra(type,rk,field); #rational version for root calcs
+R := PolynomialRing(Rationals,2*Dimension(g_rat));
+g := SimpleLieAlgebra(type,rk,R);
+x := IndeterminatesOfPolynomialRing(R);
+t := x[Dimension(g_rat)+1];
+B := Basis(g);
+B_rat := Basis(g_rat);
+#B_field := Basis(g_field);
+zero := 0 * x[1];
+roots := RootSystem(g_rat);
+posroots := PositiveRoots(roots);
+nrpos := Length(posroots);
+negroots := NegativeRoots(roots);
+S := SimpleSystem(roots);
+rootcoeffs := [];# define a matrix with coefficients of roots
+for i in [1..nrpos] do
+  rootcoeffs[i] := SolutionMat(S,posroots[i]);
+  rootcoeffs[i + Length(posroots)] := SolutionMat(S,negroots[i]);
+od;
+perm := IdentityMat(rk); #now get translation to Bourbaki order
+if TYPE = "F4" then
+  perm := PermutationMat((1,2,4),4); #perm takes Bourbaki coeffs to Gap coeffs
+fi;
+
+########################################
+## CHANGE ORBIT DATA HERE
+########################################
+
+H0:=0*B[1];
+H:=0*B[1];
+
+## note: H comes from [LT] page 33, and scaled 
+##       such that [H,e]=-e.
+## H0 can be derived from method produce_intersection (toral part)
+
+## case (F4,5,B2) DONE with rank check
+#e := B[3]+B[4];
+#tau := [-4,2,2,-3];
+#p := 5;
+#H := B[51] + 3*B[52];
+#H0 := 0*B[1];
+
+## case (E6,5,A3) DONE with rank check
+#e := B[1]+B[3]+B[4];
+#tau := [2,-3,2,2,-3,0];
+#p := 5;
+#H := B[73] + 3*B[75] + B[76];  
+#H0 := 0*B[1];
+
+## case (E7,11,D6) DONE with rank check
+#e := B[2]+B[3]+B[4]+B[5]+B[6]+B[7];
+#tau := [-15,2,2,2,2,2,2];
+#p := 11; 
+#H := 6*B[133] + 2*B[132] + 10*B[131] + 8*B[130] + 9*B[129] + 9*B[128]; 
+#H0 := 0*B[1];
+
+## case (E7,5,A3) DONE with rank check
+#e := B[1]+B[3]+B[4];
+#tau := [2,-3,2,2,-3,0,0];
+#p := 5;
+#H := B[127] + 3*B[129] + B[130];
+#H0 := 0*B[1];
+
+## case (E8,7,A5) DONE!
+#e := B[1]+B[3]+B[4]+B[5]+B[6];
+#tau := [2,-9,2,2,2,2,-5,0]; 
+#p := 7;
+#H := B[241] + 3*B[243] + 6*B[244] + 3*B[245] + B[246];
+#H0 := 0*B[1];
+#s1 := function(elt)
+#  local xx;
+#  xx := B[58]+B[59]+B[61];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt) + t^3*6*xx*(xx*(xx*elt));
+#end;;
+#s2 := function(elt)
+#  local xx;
+#  xx := B[178]+B[179]+B[181]; 
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt) + t^3*6*xx*(xx*(xx*elt));
+#end;;
+#s3 := function(elt)
+#  local xx;
+#  xx := B[8];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s4 := function(elt)
+#  local xx;
+#  xx := B[128];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s5 := function(elt)
+#  local xx;
+#  xx := B[69];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s6 := function(elt)
+#  local xx;
+#  xx := B[189];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s7 := function(elt)
+#  local xx;
+#  xx := B[65]+B[67]+B[68];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s8 := function(elt)
+#  local xx;
+#  xx := B[185]+B[187]+B[188];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s9 := function(elt)
+#  local xx;
+#  xx := B[104] + 6*B[105] + B[106];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s10 := function(elt)
+#  local xx;
+#  xx := B[224] + 6*B[225] + B[226];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s11 := function(elt)
+#  local xx;
+#  xx := B[119]; 
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s12 := function(elt)
+#  local xx;
+#  xx := B[239]; 
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s13 := function(elt)
+#  local xx;
+#  xx := B[120];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s14 := function(elt)
+#  local xx;
+#  xx := B[240];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+
+## case (E6,7,A5): DONE after finaltweak7, doublechecked!
+#e := B[1] + B[3] + B[4] + B[5] + B[6];
+#tau := [2,-9,2,2,2,2];
+#p:=7;
+#H := B[73] + 3*B[75] + 6*B[76] + 3*B[77] + B[78]; 
+#H0 := 0*B[1];
+
+## case (E7,7,(A5)') : DONE after finaltweak7+auts (doublechecked!)
+#e := B[1] + B[3] + B[4] + B[5] + B[6];
+#tau := [2,-9,2,2,2,2,-5];
+#p := 7;
+#H := B[127] + 3*B[129] + 6*B[130] + 3*B[131] + B[132]; 
+#H0 := 0*B[1];
+#s1 := function(elt)
+#  local xx;
+#  xx := B[53];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s2 := function(elt)
+#  local xx;
+#  xx := B[116];
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s3 := function(elt)
+#  local xx;
+#  xx := B[47]+B[48]+B[49]; 
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+#s4 := function(elt)
+#  local xx;
+#  xx := B[110]+B[111]+B[112]; 
+#  return elt + t*xx*elt + t^2*4*xx*(xx*elt);
+#end;;
+
+
+## case (E8,13,D7): DONE after final tweaks, doublechecked! 
+#e := B[2]+B[3]+B[4]+B[5]+B[6]+B[7]+B[8];
+#tau := [-21,2,2,2,2,2,2,2];
+#p := 13;
+#H := 7 * B[248] + 2 * B[247] + 11 * B[246] + 8 * B[245] + 6 * B[244] + 9 * B[243] + 9 * B[242]; 
+#H0 := 0*B[1];
+
+## A_{p-1}-CASES: 
+
+## case (E8,7,A6): DONE with rank checks and final tweaks (double checked!)
+#e := B[2]+B[4]+B[5]+B[6]+B[7]+B[8]; 
+#tau := [0,2,-10,2,2,2,2,2];
+#p := 7;
+#H := 4*B[242] + 2*B[244] + B[245] + B[246] + 2*B[247] + 4*B[248];
+#H0:= 6*B[242] + 5*B[244] + 4*B[245] + 3*B[246] + 2*B[247] + B[248];
+
+## case (E6,5,A4); DONE after rank check
+#e := B[1]+B[2]+B[3]+B[4];
+#tau := [2,2,2,2,-6,0];
+#p := 5;
+#H := 3 * B[73] + 2 * B[75] + 2*B[76] + 3*B[74];
+#H0 := 2*B[73] + 3*B[74] + 4*B[75] + B[76];
+
+## case (E7,5,A4); DONE after rank check
+#e := B[1]+B[2]+B[3]+B[4];
+#tau := [2,2,2,2,-6,0,0];
+#p := 5;
+#H := 3 * B[127] + 2 * B[129] + 2*B[130] + 3*B[128];
+#H0 := 2*B[127] + 3*B[128] + 4*B[129] + B[130];
+
+## case (E7,7,A6); DONE for i=2,5 (other cases are double-checked!), DONE
+#e := B[1] + B[3] + B[4] + B[5] + B[6] + B[7];
+#tau := [2,-12,2,2,2,2,2];
+#p := 7;
+#H := 4*B[127] + 2*B[129] + B[130] + B[131] + 2*B[132] + 4*B[133];
+#H0 := 6*B[127] +5*B[129] + 4*B[130] + 3*B[131] + 2*B[132] + B[133];
+#Xd := H+5*H0;
+#Xd := H+2*H0;
+###########################
+
+
+# produce generic element of g for prescribed root vectors
+genericelement := function(list)
+local a,i;
+a := 0 * B[1];
+for i in list do
+  a := a + x[i]*B[i];
+od;
+return a;
+end;;
+
+# reduce an element mod p
+reduce := function(elt,p)
+local coeffs,res;
+res := 0 * B[1];
+coeffs := Coefficients(B,elt);
+for i in [1..Length(coeffs)] do
+  res := res + (coeffs[i] mod p) * B[i];
+od;
+return res;
+end;;
+  
+# first a function that computes degrees of polynomials
+degree := function(f)
+local deg,leadmon,i;
+if (f=0*x[1]) then return -infinity; fi;
+leadmon:=LeadingMonomial(f);
+deg:=0;
+for i in [1..Length(leadmon)/2] do
+  deg:=deg+leadmon[2*i];
+od;
+return deg;
+end;;
+
+# Make the Polynomial f vanish in all polynomial coefficients of elt
+linearsubstitute := function(elt,f)
+local coef,coeffs,g,i,index,result;
+index := 1;
+coef := PolynomialCoefficientsOfPolynomial(f,index);
+while (Length(coef)<>2 or not(degree(coef[2])=0) ) do
+  index := index + 1;
+  if index = Length(x)+1 then
+    return elt;
+  fi;
+  coef := PolynomialCoefficientsOfPolynomial(f,index);
+od;
+g := -(f-coef[2]*x[index])/coef[2];   
+#Print("dividing by ",coef[2],"\n");
+result := 0 * B[1];
+coeffs := Coefficients(B,elt);
+for i in [1..Length(B)] do
+  result := result + Value(coeffs[i],[index],[g])*B[i];
+od;
+return result;
+end;;
+
+
+# function nr returns the number of the root element in the Lie algebra
+# for instance, nr([2,3,4,2]) = 24 = nr of highest root in F4
+nr := function(coefficients)
+local coeff,position;
+coeff := coefficients * perm;
+position := Position(rootcoeffs,coeff);
+return position; 
+end;;
+
+# function elt takes a list of coefficients in the Bourbaki ordering and turns it into
+# an element of the Lie algebra
+# e.g., elt([2,3,4,2]) := highes root vector.
+elt := function(coefficients)
+return B[nr(coefficients)];
+end;;
+
+# find the unipotent radical and positive roots of the Levi for cocharacter tau
+# gives the coefficients of the roots in the Bourbaki labeling
+finduni := function(tau)
+local i,count,list,coeff;
+count := 0;
+list := [];
+for coeff in rootcoeffs do
+  if tau * perm * coeff > 0 then
+    count := count+1;
+    list[count] := perm * coeff;
+  fi;
+od;
+return list;
+end;;
+
+# find the roots of the parabolic for cocharacter tau
+# gives the coefficients of the roots in the Bourbaki labeling
+findpar := function(tau)
+local i,count,list,coeff;
+count := 0;
+list := [];
+for coeff in rootcoeffs do
+  if tau * perm * coeff >= 0 then
+    count := count+1;
+    list[count] := perm * coeff;
+  fi;
+od;
+return list;
+end;;
+
+findweights := function(tau,weight)
+local i,count,list,coeff;
+count := 0;
+list := [];
+for coeff in rootcoeffs do
+  if tau * perm * coeff = weight then
+    count := count+1;
+    list[count] := perm * coeff;
+  fi;
+od;
+return list;
+end;;
+
+# check pair for W1-possibility
+# checks whether element in -2p+4 weight space can be
+# hit to give multiple of e
+checkpair := function(list,tau,height,p)
+local one,e,i,high,weights,iterations,count;
+one := x[1]^0;
+e := 0 * B[1];
+for i in [1..Length(list)] do
+  e := e + elt(list[i]);
+od;
+iterations := p-1;
+weights := findweights(tau,-height);
+high := genericelement(List(weights,nr));
+Print(high,"\n");
+count := 1;
+for i in [1..iterations] do
+  # high := (one/(p-count)) * e * high;
+  high := e * high;
+  count := count+1;
+od;
+Print(e,"\n");
+return reduce(high,p);
+end;;
+
+# find index where testcoeffs nonzero vs coeffs zero 
+checkzeros := function(coeffs,testcoeffs)
+local i,zero;
+zero := 0 * x[1];
+for i in [1..Length(coeffs)] do
+  if (coeffs[i] = zero and not(testcoeffs[i]=zero)) then
+    return i;
+  fi;
+od;
+return 0;
+end;;
+
+# THIS IS NOT WORKING AND SUPERCEDED BY
+# producefandffandv AT THE END!
+# produce candidate for f for bad orbits
+#producef := function(e,tau,p)
+#local weights,f;
+#weights := findweights(tau, -2*p-2);
+## take f from -2 and weight spaces
+#weights := Concatenation(weights, findweights(tau,-2));
+#weights := Concatenation(weights, findweights(tau,-2 + 2*p));
+#f := genericelement(List(weights,nr));
+#return f;
+#end;;
+
+# produce generic element in g 
+producegeneric := function()
+local f;
+f := genericelement([1..Dimension(g)]);
+return f;
+end;;
+
+# produce elt in g_e(0) \cap im(ad e)
+# this is used to determine H0
+produce_intersection := function(e,tau,p)
+local test, i,coeffs, testcoeffs, weights,v;
+weights := findweights(tau, -2);
+v := genericelement(List(weights,nr));
+v := reduce(e*v,p); #generic element in g(0) \cap im(ad e)
+test := reduce(e*v,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+i := checkzeros(coeffs,testcoeffs);
+while(i>0) do
+  v := linearsubstitute(v,testcoeffs[i]);
+  v := reduce(v,p);
+  test := reduce(e*v,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return v;
+end;;
+
+# NOT USED ANYMORE
+# make f*e*e = e in ch 2
+tweakfee2 := function(e,f)
+local test,i,j,coeffs,testcoeffs;
+test := f*e*e - e;
+test := reduce(test,2);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+## goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0 and testcoeffs[i]<>coeffs[1]+1) do
+  f := linearsubstitute(f,testcoeffs[i]);
+  f := reduce(f,2);
+  test := f*e*e - e; 
+  test := reduce(test,2);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+if i<>0 then 
+return "FAIL"; else
+return "SUCCEED";fi;
+end;;
+
+
+# NOT USED ANYMORE
+# make f*e*e*e*e*e*e = e 
+tweakf := function(e,tau,p,f)
+local test,i,j,coeffs,testcoeffs;
+test := f*e*e*e*e*e*e - e;
+test := reduce(test,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+## goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  f := linearsubstitute(f,testcoeffs[i]);
+  f := reduce(f,p);
+  test := f*e*e*e*e*e*e - e; 
+  test := reduce(test,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return f;
+end;;
+
+# make (e*f) = Xd. 
+tweakf1 := function(e,p,f,Xd)
+local test,i,j,coeffs,testcoeffs;
+test := (e*f) - Xd; 
+test := reduce(test,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+# goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  f := linearsubstitute(f,testcoeffs[i]);
+  f := reduce(f,p);
+  test := (e*f) - Xd; 
+  test := reduce(test,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return f;
+end;;
+
+# make (Xd*f) = f. 
+tweakf2 := function(e,p,f,Xd)
+local test,i,j,coeffs,testcoeffs;
+test := (Xd*f) - f; 
+test := reduce(test,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+# goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  f := linearsubstitute(f,testcoeffs[i]);
+  f := reduce(f,p);
+  test := (Xd*f) - f; 
+  test := reduce(test,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return f;
+end;;
+
+# make e * ff = f 
+tweakfandff := function(e,p,f,ff)
+local test,i,j,coeffs,testcoeffs;
+test := e * ff;
+test := reduce(test - f,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+# goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  f := linearsubstitute(f,testcoeffs[i]);
+  ff := linearsubstitute(ff,testcoeffs[i]);
+  f := reduce(f,p);
+  ff := reduce(ff,p);
+  test := e * ff;
+  test := reduce(test - f,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return [f,ff];
+end;;
+ 
+# NOT USED ANYMORE
+# produce candidate for ff for BAD ORBITS
+#produceff := function(e,tau,p)
+#local weights,f;
+#weights := findweights(tau, -2*p-4);
+## take f from -4 spaces 
+#weights := Concatenation(weights, findweights(tau,-4));
+#weights := Concatenation(weights, findweights(tau,-4+2*p));
+#f := genericelement(List(weights,nr));
+#return f;
+#end;;
+
+# make (Xd*ff) = 2ff. 
+tweakff1 := function(e,p,f,Xd)
+local test,i,j,coeffs,testcoeffs;
+test := (Xd*f) - 2*f; 
+test := reduce(test,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+# goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  f := linearsubstitute(f,testcoeffs[i]);
+  f := reduce(f,p);
+  test := (Xd*f) - 2*f; 
+  test := reduce(test,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return f;
+end;;
+
+# NOT USED ANYMORE
+# make ff be such that ad(e)^3(ff) = mult of e
+#tweekff := function(e,tau,p,f)
+#local test,i,j,coeffs,testcoeffs;
+#test := f;
+#for i in [1..3] do
+#  test := e * test;
+#od;
+## test if ad(e)^3(f) = multiple of e
+## actually we just make the l.h.s. be supported on correct roots
+#coeffs := Coefficients(B,e);
+#test := reduce(test,p);
+#testcoeffs := Coefficients(B,test);
+## goal: make ad(e)^3(f) a multiple of e
+#i := checkzeros(coeffs,testcoeffs);
+#while (i>0) do
+#  f := linearsubstitute(f,testcoeffs[i]);
+#  f := reduce(f,p);
+#  test := f;
+#  for j in [1..3] do
+#    test := e * test;
+#  od;
+#  test := reduce(test,p);
+#  testcoeffs := Coefficients(B,test);
+#  i := checkzeros(coeffs,testcoeffs);
+#od;
+#Print("the element e is: ","\n");
+#Print(e, "\n");
+#Print(" ","\n");
+#Print("the element ad(e)^3(ff) is: ", "\n");
+#Print(test, "\n");
+#Print(" ","\n");
+#return f;
+#end;;
+
+## make ff be such that ad(e)^{p-1}(f) = mult of e
+#tweekff := function(e,tau,p,f)
+#local test,i,j,coeffs,testcoeffs;
+#test := f;
+#for i in [1..p-1] do
+#  test := e * test;
+#od;
+## test if ad(e)^{p-1}(f) = multiple of e
+## actually we just make the l.h.s. be supported on correct roots
+#coeffs := Coefficients(B,e);
+#test := reduce(test,p);
+#testcoeffs := Coefficients(B,test);
+## goal: make ad(e)^{p-1}(f) a multiple of e
+#i := checkzeros(coeffs,testcoeffs);
+#while (i>0) do
+#  f := substitute(f,testcoeffs[i]);
+#  f := reduce(f,p);
+#  test := f;
+#  for j in [1..p-1] do
+#    test := e * test;
+#  od;
+#  test := reduce(test,p);
+#  testcoeffs := Coefficients(B,test);
+#  i := checkzeros(coeffs,testcoeffs);
+#od;
+#Print("the element e is: ","\n");
+#Print(e, "\n");
+#Print(" ","\n");
+#Print("the element ad(e)^{p-1}(f) is: ", "\n");
+#Print(test, "\n");
+#Print(" ","\n");
+#return f;
+#end;;
+
+
+# produce vector in zero weights killed by e
+producev := function(e,tau,p)
+local weights,i,coeffs,testcoeffs,vector,list,dim;
+dim := Length(B);
+# pick vector from zero weight space
+# so from zero roots and torus
+weights := findweights(tau,0);
+list := List(weights,nr);
+for i in [0..rk-1] do
+  list[Length(list)+1] := dim - i;
+od;
+vector := genericelement(list);
+# goal: make e*vector = 0
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,reduce(e * vector,p));
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  vector := linearsubstitute(vector, testcoeffs[i]);
+  vector := reduce(vector,p);
+  testcoeffs := Coefficients(B,reduce(e * vector,p));
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return vector;
+end;;
+
+# make v get killed by e 
+tweakv0 := function(e,p,vector)
+local i,coeffs,testcoeffs,list,dim;
+# goal: make e*vector = 0
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,reduce(e * vector,p));
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  vector := linearsubstitute(vector, testcoeffs[i]);
+  vector := reduce(vector,p);
+  testcoeffs := Coefficients(B,reduce(e * vector,p));
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return vector;
+end;;
+
+# determine the indeterminates occurin in v
+findindets := function(v)
+local indets,i,count,coeffs,f;
+coeffs := Coefficients(B,v);
+indets := [];
+count := 1;
+for f in coeffs do
+  for i in [1..Dimension(g)] do
+    if Length(PolynomialCoefficientsOfPolynomial(f,i)) > 1 and not(i in indets) then
+      indets[count] := i;
+      count := count+1;
+    fi;
+  od;
+od;
+return indets;
+end;;
+
+# determine matrix from relation ff*v=0
+findmatrix := function(ff,v)
+local indets,mat,coeffs,count,test,i,j,column;
+indets := findindets(v);
+mat := [];
+coeffs := Coefficients(B,reduce(ff*v,p));
+count := 1;
+for i in [1..Length(coeffs)] do
+  column := 1;
+  if not(coeffs[i]=0*x[1]) then
+    mat[count] := [];
+    for j in indets do 
+      test := PolynomialCoefficientsOfPolynomial(coeffs[i],j);
+      if Length(test)>1 then
+        mat[count][column] := test[2];
+        else mat[count][column] := 0*x[1];
+      fi;
+      column := column+1;
+    od;
+    count := count + 1;
+  fi;
+od;
+return mat;
+end;;
+
+
+# make (Xd*v) = 0. 
+tweakv := function(e,p,v,Xd)
+local test,i,j,coeffs,testcoeffs;
+test := Xd*v; 
+test := reduce(test,p);
+coeffs := Coefficients(B,0*e);
+testcoeffs := Coefficients(B,test);
+# goal: make test = 0 
+i := checkzeros(coeffs,testcoeffs);
+while (i>0) do
+  v := linearsubstitute(v,testcoeffs[i]);
+  v := reduce(v,p);
+  test := Xd*v; 
+  test := reduce(test,p);
+  testcoeffs := Coefficients(B,test);
+  i := checkzeros(coeffs,testcoeffs);
+od;
+return v;
+end;;
+
+removeweight := function(testweights,i,lambda,Xd)
+  local j,find;
+  find := 0;
+  for j in [1..Length(testweights)] do
+    if reduce(Xd*B[testweights[j]] - (lambda+i)*B[testweights[j]],p) = 0*B[1] then
+      find := j;
+    fi;
+  od;
+  Remove(testweights,find);
+  return testweights;
+end;;
+
+
+##################
+# compositionfactors for orbits A_{p-1}
+pcompositionfactors := function(e,tau,p,Xd)
+local dim,weights,nullvector,high,test,i,count,index,elt,lambda,factors;
+dim := Dimension(g)-rk-Length(findweights(tau,0));
+weights := [];
+factors := [];
+nullvector := [];
+high := 0;
+while not(dim=0) do
+  test := Length(findweights(tau,high+1));
+  dim := dim -2*test;
+  high := high+1;
+od;
+count := 1;
+for i in [0..high-1] do
+  weights[count] := List(findweights(tau,high-i),nr);
+  nullvector[count] := 0;
+  count := count+1;
+od;
+dim := Dimension(g);
+weights[count] := List(findweights(tau,0),nr);
+for i in [0..rk-1] do
+  weights[count] := Concatenation(weights[count], [dim-i]);
+od;
+nullvector[count] := 0;
+count := count+1;
+for i in [1..high] do
+  weights[count] := List(findweights(tau,-i),nr);
+  nullvector[count] := 0;
+  count := count+1;
+od;
+count := 1;
+index := 1;
+
+while (index <= Length(weights)) and not(List(weights,Length)=nullvector) do
+  while not(weights[index] = []) do
+    Print(List(weights,Length),"\n");
+    elt := B[Remove(weights[index],1)];
+    lambda := -1; #some arbitrary init value;
+    for i in [0..p-1] do
+      if reduce(Xd*elt - i*elt,p)=0*B[1] then lambda:=i; fi;
+    od;
+    if lambda = 0 then
+      factors[count] := "K"; count := count+1;
+    elif lambda = 1 then
+      factors[count] := "S"; count := count+1;
+      for i in [1..p-2] do
+        weights[index + (i*2)] := removeweight(weights[index + (i*2)],i,lambda,Xd);
+      od;
+    else
+      factors[count] := Concatenation("V(",String(lambda-1),")"); count:=count+1;
+      for i in [1..p-1] do
+        weights[index + (i*2)] := removeweight(weights[index + (i*2)],i,lambda,Xd);
+      od;
+    fi;
+  od;
+  index := index+1;
+od;
+return factors;
+end;;
+#################
+
+producepcompfactors := function(e,tau,p)
+local Xd,i,comp;
+  Xd := [];
+  for i in [1..p] do
+    Xd[i] := H + i*H0;
+    Xd[i] := reduce(Xd[i],p);
+  od;
+comp := [];
+for i in [1..p] do
+  comp[i] := pcompositionfactors(e,tau,p,Xd[i]);
+od;
+return comp;
+end;;
+
+
+# OLD VERSION 
+##################
+#producefandffandv := function(e,tau,p,H,H0)
+#  local f1,ff1,f,ff,test,k,i,Xd,v1,v;
+#  # produce diff choices for Xd
+#  Xd := [];
+#  for i in [1..p] do
+#    Xd[i] := H + i*H0;
+#    Xd[i] := reduce(Xd[i],p);
+#  od;
+#
+#  f := [];
+#  ff := [];
+#  f1 := tweakf(e,tau,p,producef(e,tau,p));
+#  ff1 := tweekff(e,tau,p,produceff(e,tau,p));
+#
+#  for i in [1..p] do
+#    f[i] := tweakf1(e,p,f1,Xd[i]);
+#  od;
+#
+#  for i in [1..p] do
+#    f[i] := tweakf2(e,p,f[i],Xd[i]);
+#  od;
+#
+#  test := [];
+#  for k in [1..p] do
+#    test[k] := tweakfandff(e,p,f[k],ff1);
+#    f[k] := test[k][1];
+#    ff[k] := test[k][2];
+#  od;
+#
+#  for i in [1..p] do
+#    ff[i] := tweakff1(e,p,ff[i],Xd[i]);
+#  od;
+#  v1 := producev(e,tau,p);
+#  v := [];
+#  for k in [1..p] do
+#    v[k] := tweakv(e,p,v1,Xd[k]);
+#  od;
+#return [f,ff,v];
+#end;;
+###################
+
+#findsolutions := function(e,tau,p,f,ff,v)
+#local i,j,k,l,test,testcoeffs,coeffs,mat,count,res,f1,ff1;
+## three constraints to satisfy
+## 1. (f*e)*f + f = 0.
+## this is used to det the indeterminates to substitute
+## 2. e * ff = f (should already hold).
+## 3. ff * v = 0.
+#f1 := f;
+#ff1 := ff;
+#for l in [0..p] do
+#for j in [0..p] do
+#for k in [0..p] do
+#Print(l,j,k,"\n");
+##  i := 1;
+##  j := 1;
+##  k := 1;
+#  f := f1; #always restore values
+#  ff := ff1;
+#  f := reduce(substitute(f,x[78]-l),p); 
+#  f := reduce(substitute(f,x[128]-j),p); 
+#  f := reduce(substitute(f,x[208]-k),p); 
+#test := reduce((f*e)*f+f,p);
+#coeffs := Coefficients(B,0*e);
+#testcoeffs := Coefficients(B,test);
+#i := checkzeros(coeffs,testcoeffs);
+#while(i>0) do
+#  f := linearsubstitute(f,testcoeffs[i]);
+#  f := reduce(f,p);
+#  test := reduce((f*e)*f+f,p);
+#  testcoeffs := Coefficients(B,test);
+#  i := checkzeros(coeffs,testcoeffs);
+#od;
+#test := tweakfandff(e,p,f,ff);
+#f := test[1];
+#ff := test[2];
+#mat := [];
+#coeffs := Coefficients(B,reduce(ff*v,p));
+#count := 1;
+#for i in [1..Length(coeffs)] do
+#  if not(coeffs[i]=0*x[1]) then
+#    mat[count] := [];
+#    test := PolynomialCoefficientsOfPolynomial(coeffs[i],1);
+#    if Length(test)>1 then
+#      mat[count][1] := test[2];
+#      else mat[count][1] := 0*x[1];
+#    fi;
+#    test := PolynomialCoefficientsOfPolynomial(coeffs[i],84);
+#    if Length(test)>1 then
+#      mat[count][2] := test[2];
+#      else mat[count][2] := 0*x[1];
+#    fi;
+#    test := PolynomialCoefficientsOfPolynomial(coeffs[i],121);
+#    if Length(test)>1 then
+#      mat[count][3] := test[2];
+#      else mat[count][3] := 0*x[1];
+#    fi;
+#    test := PolynomialCoefficientsOfPolynomial(coeffs[i],204);
+#    if Length(test)>1 then
+#      mat[count][4] := test[2];
+#      else mat[count][4] := 0*x[1];
+#    fi;
+#    test := PolynomialCoefficientsOfPolynomial(coeffs[i],241);
+#    if Length(test)>1 then
+#      mat[count][5] := test[2];
+#      else mat[count][5] := 0*x[1];
+#    fi;
+#    test := PolynomialCoefficientsOfPolynomial(coeffs[i],248);
+#    if Length(test)>1 then
+#      mat[count][6] := test[2];
+#      else mat[count][6] := 0*x[1];
+#    fi;
+#    count := count + 1;
+#  fi;
+#od;
+#mat := rowreduce(mat) mod p;
+#if (Rank(mat) < 6) then 
+#  Print("TRUE","\n"); 
+#  else 
+#    Print("FALSE","\n");
+#    res := false;
+#fi;
+#od;od;od;
+#return res;
+#end;;
+
+##########################
+# test := findsolutions(e,tau,p,f,ff,v);
+############################
+
+
+## find trivial submodules
+#checktrivial := function(e,tau,p)
+#local weights,f,test,i,j,coeffs,testcoeffs,vector,list,dim,result,X,r,s,testz;
+#dim := Length(B);
+#f := produceff(e,tau,p);
+#f := tweekff(e,tau,p,f);
+#X := [];
+#X[p-1] := f;
+## the X[i] is a candidate for X^{i}del
+#for i in [2..p-1] do
+#  X[p-i] := e * X[p-i+1];
+#od;
+#return X;
+#for r in [1..p-2] do
+#  for s in [r+1..p-1] do
+#    testz := X[r] * X[s];
+#      if r+s-1 >= p then 
+#        # make testz to be zero
+#        coeffs := Coefficients(B,0*e);
+#        testz := reduce(testz,p);
+#        testcoeffs := Coefficients(B,testz);
+#        i := checkzeros(coeffs,testcoeffs);
+#        while (i>0) do
+#          f := linearsubstitute(f,testcoeffs[i]);
+#          f := reduce(f,p);
+#          X[p-1] := f;
+#          for i in [2..p-1] do
+#            X[p-i] := e * X[p-i+1];
+#          od;
+#          testz := X[r] * X[s];
+#          testz := reduce(test,p);
+#          testcoeffs := Coefficients(B,testz);
+#          i := checkzeros(coeffs,testcoeffs);
+#        od;
+#      fi;
+#      #if r+s-1 < p then
+#      #  if not (test = (numbers[s]-numbers[r])*X[r+s-1]) then return [false,7]; fi;
+#      #fi;
+#  od;
+#od;
+#
+#Print(" The new f is given by: ","\n");
+#Print(f, "\n");
+#Print(" ","\n");
+#
+#
+## pick vector from zero weight space
+## so from zero roots and torus
+#weights := findweights(tau,0);
+#list := List(weights,nr);
+#for i in [0..rk-1] do
+#  list[Length(list)+1] := dim - i;
+#od;
+#vector := genericelement(list);
+#
+## goal: make e*vector = 0
+#coeffs := Coefficients(B,0*e);
+#testcoeffs := Coefficients(B,reduce(e * vector,p));
+#i := checkzeros(coeffs,testcoeffs);
+#while (i>0) do
+#  vector := linearsubstitute(vector, testcoeffs[i]);
+#  vector := reduce(vector,p);
+#  testcoeffs := Coefficients(B,reduce(e * vector,p));
+#  i := checkzeros(coeffs,testcoeffs);
+#od;
+#
+#Print("the element v is: ","\n");
+#Print(vector,"\n");
+#Print(" ","\n");
+#
+#coeffs := Coefficients(B,reduce(f * vector,p));
+#result := [];
+#i := 0;
+#for j in [1..Length(coeffs)] do
+#  if not(coeffs[j]=zero) then
+#    i := i + 1;
+#    result[i] := coeffs[j];
+#  fi;
+#od;
+##PrintArray(result);
+#return result;
+#end;;
+
+
+# check pair for W1-possibility
+#checkpairold := function(list,tau,height,p)
+#local one,e,i,high,weights,iterations,count;
+#one := x[1]^0;
+#e := 0 * B[1];
+#for i in [1..Length(list)] do
+#  e := e + elt(list[i]);
+#od;
+#iterations := (height)/2 + 1;
+#weights := findweights(tau,-height);
+#high := genericelement(List(weights,nr));
+#count := 1;
+#for i in [1..iterations] do
+#  # high := (one/(p-count)) * e * high;
+#  high := e * high;
+#  count := count+1;
+#od;
+#Print(e,"\n");
+#return reduce(high,p);
+#end;;
+
+findind := function(mat,r)
+local l,i,j,B,count;
+count := 1;
+l := Length(mat);
+B := [];
+for i in [1..l] do
+  for j in [1..l] do
+    if DegreeIndeterminate(mat[i][j],r) > 1 then
+      B[count] := mat[i][j];
+      count := count + 1;
+    fi;
+  od;
+od;
+return B;
+end;;
+
+# now the kernel of A gives the centraliser of a in g.
+# to compute this we compute the row reduction of A.
+
+
+# secondly a function that computes the number of terms of polynomials
+numberofterms:=function(f)
+local number,zero;
+zero:=0*f;
+number:=0;
+while not f=zero do
+  f:=f-LeadingTermOfPolynomial(f,MonomialGrlexOrdering());
+  number:=number+1;
+od;
+return number;
+end;;
+
+#(From Peter)
+#This function defines a partial order on the set of multivariate polynomials.
+#This is done in order of precedence by: the number of terms; total degree; and
+#coefficient of the leading term. The idea of this order is that it is used to
+#determine which entry in a row of a matrix to use as a pivot and reduce the
+#other rows.
+lessthan:=function(f,g)
+local leadf,leadg,
+      degf,degg,
+      numf,numg,
+      less;
+if f=g then
+  less:=false;
+  else
+    numf:=numberofterms(f);
+    numg:=numberofterms(g);
+  if numf<numg then
+    less:=true;
+  elif numg<numf then
+    less:=false;
+    else
+      degf:=degree(f);
+      degg:=degree(g);
+    if degf<degg then
+      less:=true;
+      elif degg<degf then
+        less:=false;
+      else
+        leadf:=AbsoluteValue(LeadingCoefficient(f));
+        leadg:=AbsoluteValue(LeadingCoefficient(g));
+      if leadf<leadg then
+        less:=true;
+      else
+        less:=false;
+      fi;
+    fi;
+  fi;
+fi;
+return less;
+end;;
+
+# NOW depends on p!!!!
+# find a good pivot row by picking a simple nonzero entry
+findpivotrow := function(mat,column,fromrow)
+local row,zero,compare,test,l,i;
+l := Length(mat);
+zero := 0 * x[1];
+compare := 0;
+row := 0;
+for i in [fromrow..l] do
+  test := mat[i][column] mod p;
+  if test <> zero then
+    if compare = 0 then 
+      compare := test;
+      row := i;
+    elif lessthan(test,compare) then
+      compare := test;
+      row := i;
+    fi;
+  fi;
+od;
+return row;
+end;;
+
+# do row-reductions on a matrix with polynomial coefficients
+# NOW DEPENDS ON p!
+# only do one step at a time
+onesteprowreduce := function(mat1)
+local l,mat,temp,row,rowput,columnsearch,i,j,c,count;
+count := 0;
+mat := StructuralCopy(ShallowCopy(mat1)); #make a mutable version of A
+mat := mat mod p;
+l := Length(mat); #number of rows
+c := Length(mat[1]); #number of columns
+columnsearch := 1; #the column we are searching for pivots
+rowput := 1; #the row where we move the pivot row
+while (columnsearch <= c and count=0) do
+  row := findpivotrow(mat,columnsearch,rowput);
+  if row > 0 then
+    temp := mat[rowput];
+    mat[rowput] := mat[row];
+    mat[row] := temp;
+    rowput := rowput + 1;
+  fi;
+  for i in [rowput..l] do 
+    if (mat[i][columnsearch] mod p) <> 0*x[1] then 
+      #Print("before temp","\n");
+      #temp := mat[i][columnsearch]/mat[rowput-1][columnsearch];
+      #Print("temp ",temp,"\n");
+      #mat[i] := DenominatorOfRationalFunction(temp) * mat[i] -
+      #          NumeratorOfRationalFunction(temp) * mat[rowput-1];
+      #Print(mat[rowput-1][columnsearch] mod p,"\n");
+      mat[i] := mat[rowput-1][columnsearch] * mat[i] -
+                mat[i][columnsearch] * mat[rowput-1];
+      mat[i] := mat[i] mod p;
+      #Print("after temp","\n");
+      count := 1;
+    fi;
+  od;
+row := 0;
+columnsearch := columnsearch + 1;
+od;
+return mat;
+end;;
+
+# do row-reductions on a matrix with polynomial coefficients
+# NOW DEPENDS ON p!
+rowreduce := function(mat1)
+local l,mat,temp,row,rowput,columnsearch,i,j,c;
+mat := StructuralCopy(ShallowCopy(mat1)); #make a mutable version of A
+l := Length(mat); #number of rows
+c := Length(mat[1]); #number of columns
+columnsearch := 1; #the column we are searching for pivots
+rowput := 1; #the row where we move the pivot row
+while columnsearch <= c do
+  row := findpivotrow(mat,columnsearch,rowput);
+  if row > 0 then
+    temp := mat[rowput];
+    mat[rowput] := mat[row];
+    mat[row] := temp;
+    rowput := rowput + 1;
+  fi;
+  for i in [rowput..l] do 
+    if (mat[i][columnsearch] mod p) <> 0*x[1] then 
+      #Print("before temp","\n");
+      #temp := mat[i][columnsearch]/mat[rowput-1][columnsearch];
+      #Print("temp ",temp,"\n");
+      #mat[i] := DenominatorOfRationalFunction(temp) * mat[i] -
+      #          NumeratorOfRationalFunction(temp) * mat[rowput-1];
+      Print(mat[rowput-1][columnsearch] mod p,"\n");
+      mat[i] := mat[rowput-1][columnsearch] * mat[i] -
+                mat[i][columnsearch] * mat[rowput-1];
+      #Print("after temp","\n");
+    fi;
+  od;
+row := 0;
+columnsearch := columnsearch + 1;
+od;
+return mat;
+end;;
+
+# return first nonzero entries of rows in rowreduced form
+getpivots := function(mat)
+local i,j,l,test,find;
+l := Length(mat);
+find := [];
+for i in [1..l] do
+  find[i] := 0;
+  for j in [1..l] do
+    test := mat[i][j];
+    if find[i] = 0 then
+      if test <> 0*x[1] then 
+        find[i] := test;
+      fi;
+    fi;
+  od;
+od;
+return find;
+end;;
+
+# check an element in I for dimensions of centralisers
+checkelement := function(repcoeffs, poscoeffs, freecoeffs, bound)
+# repcoeffs are the coeffs in the max orbit rep e, that may be assumed nonzero
+# poscoeffs are the coeffs that do not lie in \g(>0) (i.e., in \g(0)) 
+# freecoeffs are the other coeffs in the element
+# bound 
+local i,tocheck,divisors,nrpivots,number1,number2,numbers,f,g,zeros,pivots,res,array,array1,a,A,count,tuple;
+for array in Combinations(freecoeffs) do
+  for array1 in Combinations(poscoeffs) do
+    if not (array1 = []) then
+      tuple := Concatenation(repcoeffs,array,array1);
+      a := genericelement(tuple);
+      A := AdjointMatrix(B,a);
+      res := rowreduce(A);
+      pivots := getpivots(res);
+      zeros := 0;
+      count := 0;
+      nrpivots := 0;
+      tocheck := [];
+      numbers := [];
+      for f in pivots do
+        if numberofterms(f) = 0 then
+          zeros := zeros + 1;
+        fi;
+        if numberofterms(f) = 1 then
+          nrpivots := nrpivots + 1; 
+          number1 := DenominatorRat(LeadingCoefficient(f));
+          number2 := NumeratorRat(LeadingCoefficient(f));
+          for i in PrimeDivisors(number1) do
+            if not (i in numbers) then
+              numbers[Length(numbers)+1] := i;
+            fi;
+          od;
+          for i in PrimeDivisors(number2) do
+            if not (i in numbers) then
+              numbers[Length(numbers)+1] := i;
+            fi;
+          od;
+        fi;
+        if numberofterms(f) > 1 then
+          count := count + 1;
+          tocheck[count] := f;
+        fi;
+      od;
+      if zeros+count >= bound then
+        Print("Tuple: ", tuple, "\n");
+        Print("Divisors: ", numbers, "\n");
+        Print("Zeros: ", zeros, "\n");
+        Print("tocheck: ", count, "\n");
+        Print("sum: ", zeros + count, "\n");
+        for g in tocheck do
+          Print(g, "\n");
+        od;
+        Print("\n","\n");
+      fi;
+    fi;
+  od;
+od;
+end;;
+
+## next version is for NON-A_p-1 orbits
+producefandffandv := function(e,p,H)
+  local f,ff,test,Xd,v,mat,r;
+  # produce Xd
+  Xd := H;
+
+  f := producegeneric(); #f is completely generic
+
+  f := tweakf1(e,p,f,Xd);
+    # this makes [e,f]=Xd.
+
+  f := tweakf2(e,p,f,Xd);
+    # this makes [Xd,f]=f
+
+  ff := producegeneric(); #ff is completely generic
+
+  ff := tweakff1(e,p,ff,Xd);
+    # this makes [Xd,ff]=2ff,
+    # and guarantees that ff is in different root spaces than f.
+
+  test := tweakfandff(e,p,f,ff);
+  f := test[1];
+  ff := test[2];
+    # this makes [e,ff]=f
+
+  v := producegeneric(); #v is completely generic
+  v := tweakv0(e,p,v); #this makes [e,v]=0
+  v := tweakv(e,p,v,Xd);
+    # this makes [Xd,v]=0
+
+  mat := findmatrix(ff,v); #matrix whose kernel gives v
+  r := Length(findindets(v));
+return [f,ff,v,mat,r];
+end;;
+##################
+
+## next version is for A_p-1 orbits
+pproducefandffandv := function(e,p,H,H0)
+  local f1,ff1,f,ff,test,k,i,Xd,v1,v,mat,matred,res,rank;
+  # produce diff choices for Xd
+  Xd := [];
+  for i in [1..p] do
+    Xd[i] := H + i*H0;
+    Xd[i] := reduce(Xd[i],p);
+  od;
+
+  f := [];
+  f1 := producegeneric(); #f1 is completely generic
+
+  for i in [1..p] do
+    f[i] := tweakf1(e,p,f1,Xd[i]);
+    # this makes [e,f]=Xd.
+  od;
+
+  for i in [1..p] do
+    f[i] := tweakf2(e,p,f[i],Xd[i]);
+    # this makes [Xd,f]=f
+  od;
+
+  ff := [];
+  ff1 := producegeneric(); #ff1 is completely generic
+
+  for i in [1..p] do
+    ff[i] := tweakff1(e,p,ff1,Xd[i]);
+    # this makes [Xd,ff]=2ff,
+    # and guarantees that ff is in different root spaces than f.
+  od;
+
+  test := [];
+  for k in [1..p] do
+    test[k] := tweakfandff(e,p,f[k],ff[k]);
+    f[k] := test[k][1];
+    ff[k] := test[k][2];
+    # this makes [e,ff]=f
+  od;
+
+  v := [];
+  v1 := producegeneric(); #v1 is completely generic
+  v1 := tweakv0(e,p,v1); #this makes [e,v]=0
+  for i in [1..p] do
+    v[i] := tweakv(e,p,v1,Xd[i]);
+    # this makes [Xd,v]=0
+  od;
+
+#  v1 := producev(e,tau,p); #this takes v from g(0) with [e,v]=0
+#  v := [];
+#  for k in [1..p] do
+#    v[k] := tweakv(e,p,v1,Xd[k]);
+#    # this makes [Xd,v]=0
+#  od;
+
+  res := true;
+
+  mat := [];
+  matred := [];
+  rank := [];
+  for i in [1..p] do
+    mat[i] := findmatrix(ff[i],v[i]); #matrix whose kernel gives v
+    matred[i] := rowreduce(mat[i]) mod p; #for Rank determination
+    rank[i] := Rank(matred[i]);
+    Print("Rank: ",rank[i],"\n");
+    if rank[i] < Length(findindets(v[i])) then 
+      Print("TRUE","\n"); 
+    else 
+      Print("FALSE","\n");
+      res := false;
+    fi;
+  od;
+return [f,ff,v,mat,matred,rank];
+end;;
+##################
+
+# search for linear positions in coeffs
+haslinear := function(coeffs) 
+local i,coef,j;
+for i in [1..Length(coeffs)] do
+  for j in [1..Length(x)] do
+    coef := PolynomialCoefficientsOfPolynomial(coeffs[i],j);
+    if (Length(coef)>1 and degree(coef[2])=0) then
+      return i;
+    fi;
+  od;
+od;
+return 0;
+end;;
+
+# final tweak for p=7
+finaltweak7 := function(f,ff)
+local test1,test2,coeff1,coeff2,has1,has2;
+test1 := reduce(ff*f*f*f*f,p);
+coeff1 := Coefficients(B,test1);
+has1 := haslinear(coeff1);
+test2 := reduce(ff*f*f*ff,p);
+coeff2 := Coefficients(B,test2);
+has2 := haslinear(coeff2);
+while (has1>0 or has2>0) do
+  if has1>0 then
+    f := linearsubstitute(f, coeff1[has1]);
+    ff := linearsubstitute(ff, coeff1[has1]);
+    f := reduce(f,p);
+    ff := reduce(ff,p);
+    test1 := reduce(ff*f*f*f*f,p);
+    coeff1 := Coefficients(B,test1);
+    has1 := haslinear(coeff1);
+  elif has2>0 then
+    f := linearsubstitute(f, coeff2[has2]);
+    ff := linearsubstitute(ff, coeff2[has2]);
+    f := reduce(f,p);
+    ff := reduce(ff,p);
+    test2 := reduce(ff*f*f*ff,p);
+    coeff2 := Coefficients(B,test2);
+    has2 := haslinear(coeff2);
+  fi;
+od;
+return [f,ff];
+end;;
+
+# try to divide rows of A by indets
+tweakmatrix := function(A,indets)
+  local i,j,try,nr;
+  for nr in indets do
+    for i in [1..Length(A)] do
+      try := true;
+      for j in [1..Length(A[i])] do
+        if not(Value(A[i][j],[nr],[0])=zero or Value(A[i][j],[nr],[0])=0) then
+          try := false;
+        fi;
+      od;
+      if try then
+        for j in [1..Length(A[i])] do
+          A[i][j] := A[i][j]/x[nr];
+        od;
+      fi;
+    od;
+  od;
+  return A;
+end;;
+
+tweakcolumns := function(A,thresh,indets)
+  local i,j,try,nr;
+  for nr in indets do
+    for j in [1..Length(A[1])] do
+      try := true;
+      for i in [thresh..Length(A)] do
+        if not(Value(A[i][j],[nr],[0])=zero or Value(A[i][j],[nr],[0])=0) then
+          try := false;
+        fi;
+      od;
+      if try then
+        for i in [thresh..Length(A)] do
+          A[i][j] := A[i][j]/x[nr];
+        od;
+      fi;
+    od;
+  od;
+  return A;
+end;;

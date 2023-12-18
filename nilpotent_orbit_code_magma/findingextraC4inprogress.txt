@@ -1,0 +1,255 @@
+
+K:=GF(4);
+
+G:=GroupOfLieType("C4",K);
+
+L,ad:=LieAlgebra(G);
+R,Rv:=RootSystem(L);
+std:=StandardRepresentation(G); 
+P:=[(K.1)^n : n in [1..#K-1]];
+
+
+
+x:=Rv[1]+Rv[2]+Rv[3];
+
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+#sub<Codomain(std)|[std(s): s in subl]>;
+
+
+
+x:=Rv[1]+Rv[2]+Rv[3]+Rv[4];
+P:=[(K.1)^n : n in [1..#K-1]];
+
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+#sub<Codomain(std)|[std(s): s in subl]>;
+
+
+x:=Rv[16]+Rv[2]+Rv[3]+Rv[4];
+P:=[(K.1)^n : n in [1..#K-1]];
+
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+#sub<Codomain(std)|[std(s): s in subl]>;
+
+
+
+x:=Rv[16]+Rv[1]+Rv[3]+Rv[4];
+P:=[(K.1)^n : n in [1..#K-1]];
+
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+#sub<Codomain(std)|[std(s): s in subl]>;
+
+
+
+x:=Rv[16]+Rv[1]+Rv[10]+Rv[4];
+P:=[(K.1)^n : n in [1..#K-1]];
+
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+#sub<Codomain(std)|[std(s): s in subl]>;
+
+
+
+
+x:=Rv[r1]+Rv[r2]+Rv[r3]+Rv[r7];
+P:=[(K.1)^n : n in [1..#K-1]];
+
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+#sub<Codomain(std)|[std(s): s in subl]>;
+
+
+
+K:=GF(4);
+
+
+X12:=Matrix(K,8,8,[<1,2,1>,<6,5,1>]);
+X13:=Matrix(K,8,8,[<1,3,1>,<7,5,1>]);
+X14:=Matrix(K,8,8,[<1,4,1>,<8,5,1>]);
+X23:=Matrix(K,8,8,[<2,3,1>,<7,6,1>]);
+X24:=Matrix(K,8,8,[<2,4,1>,<8,6,1>]);
+X34:=Matrix(K,8,8,[<3,4,1>,<8,7,1>]);
+
+
+Y12:=Matrix(K,8,8,[<1,6,1>,<2,5,1>]);
+Y13:=Matrix(K,8,8,[<1,7,1>,<3,5,1>]);
+Y14:=Matrix(K,8,8,[<1,8,1>,<4,5,1>]);
+Y23:=Matrix(K,8,8,[<2,7,1>,<3,6,1>]);
+Y24:=Matrix(K,8,8,[<2,8,1>,<4,6,1>]);
+Y34:=Matrix(K,8,8,[<3,8,1>,<4,7,1>]);
+
+
+
+U1:=Matrix(K,8,8,[<1,5,1>]);
+U2:=Matrix(K,8,8,[<2,6,1>]);
+U3:=Matrix(K,8,8,[<3,7,1>]);
+U4:=Matrix(K,8,8,[<4,8,1>]);
+
+
+L:=[X12,X23,X34,U4,X13,X24,Y34,X14,Y24,U3,Y14,Y23,Y13,U2,Y12,U1];
+
+J:=Matrix(K,8,8,[<1,5,1>, <2,6,1>, <3,7,1>, <4,8,1>, <5,1,1>, <6,2,1>, <7,3,1>, <8,4,1>]);
+
+Z:=ZeroMatrix(K,8,8);
+
+V:=VectorSpace(K,8); 
+
+j1,j2,j3:=JordanForm(X12+X23+X34);
+
+for a in [1..#L] do
+for b in [2..#L] do
+for c in [3..#L] do
+for d in [4..#L] do
+x:=L[a]+L[b]+L[c]+L[d];
+x1,x2,x3:=JordanForm(x);
+
+if x3 eq j3 then
+a,b,c,d;
+for v in V do
+if (Matrix(v)*J*(x*Transpose(Matrix(v))))[1][1] eq 0 then; 
+else "no"; break;
+end if;  
+
+end for; 
+
+end if;  
+end for; end for; end for; end for;  
+
+
+
+
+
+
+for r1 in [1..9] do
+for r2 in [2..9] do
+for r3 in [3..9] do
+
+
+x:=Rv[r1]+Rv[r2]+Rv[r3];
+
+if Dimension(Centraliser(L,x)) eq 13 then 
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d);
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+
+if #sub<Codomain(std)|[std(s): s in subl]> eq 1 then r1,r2,r3; end if; 
+end if; 
+end for; end for; end for; 
+
+
+
+
+
+
+
+
+
+
+
+for r1 in [1..9] do
+for r2 in [2..9] do
+for r3 in [3..9] do
+for r4 in [4..9] do
+
+x:=Rv[r1]+Rv[r2]+Rv[r3]+Rv[r4];
+
+if Dimension(Centraliser(L,x)) eq 13 then 
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+
+if #sub<Codomain(std)|[std(s): s in subl]> eq 1 then r1,r2,r3,r4; end if; 
+end if; 
+end for; end for; end for; end for; end for; 
+
+
+
+
+for r1 in [1..9] do
+for r2 in [2..9] do
+for r3 in [3..9] do
+for r4 in [4..9] do
+for r5 in [5..9] do
+
+x:=Rv[r1]+Rv[r2]+Rv[r3]+Rv[r4]+Rv[r5];
+
+if Dimension(Centraliser(L,x)) eq 13 then 
+subl:=[];
+
+for a in P do
+for b in P do
+for c in P do
+for d in P do
+g:=TorusTerm(G,1,a)*TorusTerm(G,2,b)*TorusTerm(G,3,c)*TorusTerm(G,4,d); 
+if InnerAutomorphism(L,g)(x) eq x then Append(~subl,g); end if; 
+end for; end for; end for; end for; 
+
+
+if #sub<Codomain(std)|[std(s): s in subl]> eq 1 then r1,r2,r3,r4,r5; end if; 
+end if; 
+end for; end for; end for; end for; end for; 

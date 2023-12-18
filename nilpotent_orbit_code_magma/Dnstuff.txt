@@ -1,0 +1,103 @@
+oK:=GF(4);
+
+m:=7;
+
+E:=ZeroMatrix(K,2*m,2*m);
+
+X:=[];
+
+for i in [1..m] do
+for j in [i+1..m] do
+Append(~X,Matrix(K,2*m,2*m,[<i,j,1>,<m+j,m+i,1>]));
+if j eq i+1 then
+E:=E+Matrix(K,2*m,2*m,[<i,j,1>,<m+j,m+i,1>]);
+end if; 
+end for;
+end for; 
+
+
+
+Y:=[];
+
+for i in [1..m] do
+for j in [i+1..m] do
+Append(~Y,Matrix(K,2*m,2*m,[<i,m+j,1>, <j,m+i,1>]));
+end for;
+end for; 
+
+Xneg:=[];
+
+for i in [1..m] do
+for j in [i+1..m] do
+Append(~Xneg,Matrix(K,2*m,2*m,[<j,i,1>,<m+i,m+j,1>]));
+end for;
+end for; 
+
+Yneg:=[];
+
+for i in [1..m] do
+for j in [i+1..m] do
+Append(~Yneg,Matrix(K,2*m,2*m,[<m+i,j,1>, <m+j,i,1>]));
+end for;
+end for; 
+
+L:=X cat Xneg cat Y cat Yneg; 
+
+Q:=ZeroMatrix(K,2*m,2*m);
+
+for i in [1..m] do
+a:=Matrix(K,2*m,2*m,[<i,m+i,1>]);
+Q:=Q+a; 
+end for;
+
+for t in L do
+
+Diagonal(Transpose(t)*Q + Q*t) eq [0: i in [1..2*m]]; 
+end for; 
+
+V:=VectorSpace(K,2*m); 
+
+
+
+j1,j2,j3:=JordanForm(E);
+
+
+function quadform(e)
+m:=Integers()!(NumberOfColumns(e)/2);
+V:=VectorSpace(GF(4),NumberOfColumns(e));
+B:=Basis(V);
+for pow in [1..m] do
+	Bs:=Basis(sub<V|[i*e^pow : i in B ]>);
+	nzs:={};
+	for b in Bs do
+		for i in [1..2*m] do
+			if b[i] eq 1 then nzs:=nzs join {i}; end if; 
+		end for;  
+	end for;
+	nzs:=SetToSequence(nzs);
+	for r in nzs do if r+m in nzs then continue pow; end if; 
+	end for;
+	thepow:=pow;
+	break pow;
+end for; 
+return thepow; 
+end function;
+
+
+
+T:=X cat Y;
+for i in [1..#T] do 
+for j in [1..#T] do
+for k in [1..#T] do 
+for l in [1..#T] do
+
+
+jn1,jn2,jn3:=JordanForm(T[i]+T[j]+T[k]+T[l]);
+if jn3 eq j3 then
+	if quadform(T[i]+T[j]+T[k]+T[l]) eq 7 then i,j; end if;  
+end if; 
+
+end for; 
+end for; 
+end for; 
+end for; 

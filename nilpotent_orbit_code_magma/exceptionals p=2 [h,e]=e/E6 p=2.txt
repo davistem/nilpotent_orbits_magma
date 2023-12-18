@@ -1,0 +1,219 @@
+L:=LieAlgebra("E6",GF(2):Isogeny:="SC");
+//L:=LieAlgebra("E6",GF(2):Isogeny:="Ad");
+
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup("E6"));
+B:=Basis(L);
+
+
+
+orbs:=[
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[2],
+Rv[1]+Rv[3]+Rv[5]+Rv[8]+Rv[9]+Rv[6],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[2],
+Rv[1]+Rv[9]+Rv[8]+Rv[14]+Rv[19]+Rv[11],
+Rv[6]+Rv[5]+Rv[2]+Rv[9]+Rv[8],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+Rv[1]+Rv[3]+Rv[4]+Rv[6]+Rv[2],
+Rv[3]+Rv[4]+Rv[5]+Rv[2],
+Rv[1]+Rv[3]+Rv[4]+Rv[5],
+Rv[3]+Rv[2]+Rv[9]+Rv[10],
+Rv[1]+Rv[3]+Rv[4]+Rv[6],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[2],
+Rv[1]+Rv[3]+Rv[4],
+Rv[1]+Rv[3]+Rv[6]+Rv[2],
+Rv[1]+Rv[3]+Rv[5]+Rv[6],
+Rv[1]+Rv[3]+Rv[5],
+Rv[1]+Rv[3],
+Rv[1]+Rv[4]+Rv[6],
+Rv[1]+Rv[4],
+Rv[1]
+];
+
+
+labels:=[ "E_{6}", "E_{6}(a_{1})", "D_{5}", "E_{6}(a_{3})", "D_{5}(a_{1})", "A_{5}",   "A_{4}+A_{1}", "D_{4}", "A_{4}", "D_{4}(a_{1})", "A_{3}+A_{1}", 
+  "2A_{2}+A_{1}", "A_{3}", "A_{2}+2A_{1}", "2A_{2}", "A_{2}+A_{1}", "A_{2}", 
+  "3A_{1}", "2A_{1}", "A_{1}" ];
+
+
+
+
+for i in [1..#orbs] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                            h:=a*B[37]+b*B[38]+c*B[39]+d*B[40]+e*B[41]+f*B[42];
+                            if orbs[i]*h eq orbs[i] then h; continue i; end if;
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 
+
+// everything works 
+
+
+
+
+for i in [1..#orbs] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                            h:=a*B[37]+b*B[38]+c*B[39]+d*B[40]+e*B[41]+f*B[42];
+                            if orbs[i]*h eq orbs[i] then 
+                            
+                                for j in [1..36] do
+                                    if h*Rv[j] eq Rv[j] and Rv[j]*orbs[i] eq 0 and Dimension(sub<L|h,orbs[i],Rv[j]>) eq 3 then j; continue i; end if;  
+                                end for; 
+                                "grrrrrrr";
+                                continue i; 
+                            end if;
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 
+
+// great everything works
+
+
+
+
+
+
+
+
+L:=LieAlgebra("E6",GF(2):Isogeny:="Ad");
+
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup("E6"));
+B:=Basis(L);
+
+
+
+orbs:=[
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[2],
+Rv[1]+Rv[3]+Rv[5]+Rv[8]+Rv[9]+Rv[6],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[2],
+Rv[1]+Rv[9]+Rv[8]+Rv[14]+Rv[19]+Rv[11],
+Rv[6]+Rv[5]+Rv[2]+Rv[9]+Rv[8],
+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6],
+Rv[1]+Rv[3]+Rv[4]+Rv[6]+Rv[2],
+Rv[3]+Rv[4]+Rv[5]+Rv[2],
+Rv[1]+Rv[3]+Rv[4]+Rv[5],
+Rv[3]+Rv[2]+Rv[9]+Rv[10],
+Rv[1]+Rv[3]+Rv[4]+Rv[6],
+Rv[1]+Rv[3]+Rv[5]+Rv[6]+Rv[2],
+Rv[1]+Rv[3]+Rv[4],
+Rv[1]+Rv[3]+Rv[6]+Rv[2],
+Rv[1]+Rv[3]+Rv[5]+Rv[6],
+Rv[1]+Rv[3]+Rv[5],
+Rv[1]+Rv[3],
+Rv[1]+Rv[4]+Rv[6],
+Rv[1]+Rv[4],
+Rv[1]
+];
+
+
+labels:=[ "E_{6}", "E_{6}(a_{1})", "D_{5}", "E_{6}(a_{3})", "D_{5}(a_{1})", "A_{5}",   "A_{4}+A_{1}", "D_{4}", "A_{4}", "D_{4}(a_{1})", "A_{3}+A_{1}", 
+  "2A_{2}+A_{1}", "A_{3}", "A_{2}+2A_{1}", "2A_{2}", "A_{2}+A_{1}", "A_{2}", 
+  "3A_{1}", "2A_{1}", "A_{1}" ];
+
+
+
+
+for i in [1..#orbs] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                            h:=a*B[37]+b*B[38]+c*B[39]+d*B[40]+e*B[41]+f*B[42];
+                            if orbs[i]*h eq orbs[i] then h; continue i; end if;
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 
+
+// everything works 
+
+
+
+
+for i in [1..#orbs] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                            h:=a*B[37]+b*B[38]+c*B[39]+d*B[40]+e*B[41]+f*B[42];
+                            if orbs[i]*h eq orbs[i] then 
+                                 
+                                for j in [1..36] do
+                                    if h*Rv[j] eq Rv[j] and Rv[j]*orbs[i] eq 0 and Dimension(sub<L|h,orbs[i],Rv[j]>) eq 3 then continue i; end if;  
+                                end for; 
+                                i;
+                                "grrrrrrr";
+                                continue i; 
+                            end if;
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 
+
+//9 and 15 have an h but not an f of the form B[i] for i in [1..36]
+//try checking all h
+
+
+
+
+
+for i in [9,15] do
+    for a in [0,1] do
+        for b in [0,1] do
+            for c in [0,1] do
+                for d in [0,1] do
+                    for e in [0,1] do
+                        for f in [0,1] do
+                            h:=a*B[37]+b*B[38]+c*B[39]+d*B[40]+e*B[41]+f*B[42];
+                            if orbs[i]*h eq orbs[i] then 
+                                 
+                                for j in [1..36] do
+                                    if h*Rv[j] eq Rv[j] and Rv[j]*orbs[i] eq 0 and Dimension(sub<L|h,orbs[i],Rv[j]>) eq 3 then i; "woooo"; h; continue i; end if;  
+                                end for; 
+                                
+                               
+                            
+                            end if;
+                        end for;
+                    end for;
+                end for;
+            end for; 
+        end for; 
+    end for; 
+    print labels[i];
+end for; 
+
+// so using a different h makes it work. Lovely. 

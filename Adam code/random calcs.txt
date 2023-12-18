@@ -1,0 +1,98 @@
+
+TYPE:="A3";
+n:=3;
+
+L:=LieAlgebra(TYPE,GF(2):Isogeny:="SC");
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:="Ad");
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup(TYPE));
+B:=Basis(L);
+
+Udim:=Integers()!(#Rv/2);
+
+rep:=StandardRepresentation(L);
+
+rep(Rv[1]+Rv[2]+Rv[9]);
+
+
+
+
+
+
+
+
+
+
+
+
+TYPE:="B6";
+n:=6;
+P<[F]>:=PolynomialRing(GF(2),100);
+L:=LieAlgebra(TYPE,P:Isogeny:="SC");
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:="Ad");
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup(TYPE));
+B:=Basis(L);
+
+Udim:=Integers()!(#Rv/2);
+
+
+
+e:=Rv[1]+Rv[2]+Rv[3]+Rv[4]+Rv[5]+Rv[72];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+//this can't be done. 
+
+
+
+
+
+TYPE:="D8";
+n:=8;
+P<[F]>:=PolynomialRing(GF(2),200);
+G< a, b > := FundamentalGroup(TYPE);
+_,i1:=sub<G|a>;
+_,i2:=sub<G|b>;
+_,i3:=sub<G|a*b>;
+
+L:=LieAlgebra(TYPE,GF(2):Isogeny:="SC");
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:= i1);
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:= i2);
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:= i3);
+//L:=LieAlgebra(TYPE,GF(2):Isogeny:="Ad");
+_,Rv:=RootSystem(L);
+R:=Roots(CoxeterGroup(TYPE));
+B:=Basis(L);
+
+Udim:=Integers()!(#Rv/2);
+
+
+
+e:=Rv[112]+Rv[1]+Rv[3]+Rv[4]+Rv[5]+Rv[6]+Rv[7]+Rv[8];
+
+h:=L!0;
+for i in [1..Dimension(L)] do
+	h:=h+P.i*L.i; 
+end for;
+
+h*e-e; 
+
+
+hsub:=sub<L|B[Udim+1]>;
+for x in [2..n] do
+	hsub:=sub<L|hsub,B[Udim+x]>;
+end for; 
+
+//trying to find a single h
+
+
+	for h in hsub do
+		if h*e eq e then h; continue h; end if; 
+	end for;

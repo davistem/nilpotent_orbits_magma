@@ -1,0 +1,45 @@
+TYPE:="A2";
+n:=2;
+
+L:=LieAlgebra(TYPE,GF(2):Isogeny:="SC");
+LL:=LieAlgebra(TYPE,Rationals():Isogeny:="SC");
+_,Rv:=RootSystem(L);
+B:=Basis(L);
+
+Udim:=Integers()!(#Rv/2);
+
+nilps0:=NilpotentOrbits(LL);
+orbs:=[];
+parts:=[];
+for o in nilps0 do
+	Append(~parts,Partition(o));
+	Append(~orbs,L!Vector(Representative(o)));
+end for; 
+
+hsub:=sub<L|B[Udim+1]>;
+for x in [2..n] do
+	hsub:=sub<L|hsub,B[Udim+x]>;
+end for; 
+
+for i in [1..#orbs] do
+	for h in hsub do
+		if h*orbs[i] eq orbs[i] then continue i; end if; 
+	end for;
+	parts[i]; 
+end for;
+
+
+for i in [1..#orbs] do
+	for h in hsub do
+		if h*orbs[i] eq orbs[i] then
+			for j in L do
+				if orbs[i]*j eq 0 and h*j eq j and Dimension(sub<L|h,orbs[i],j>) eq 3 then 
+					continue i;
+				end if;  
+			end for; 
+		end if; 
+	end for;
+	parts[i]; 
+end for;
+
+

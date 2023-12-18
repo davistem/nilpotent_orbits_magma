@@ -1,0 +1,81 @@
+P:=PolynomialRing(GF(2),100);
+L:=LieAlgebra("C4",P:Isogeny:="SC");
+
+R,B:=RootSystem(L);
+
+e:=B[1]+B[2]+B[3]+B[16];
+f:=L!0;
+
+for i in [1..36] do
+f:=f+P.i*L.i; 
+end for;
+
+f*e - e; 
+
+
+P:=PolynomialRing(GF(2),100);
+L:=LieAlgebra("C4",P);
+
+R,B:=RootSystem(L);
+
+e:=B[1]+B[2]+B[3]+B[16];
+f:=L!0;
+
+for i in [1..36] do
+f:=f+P.i*L.i; 
+end for;
+
+f*e*e - e; 
+
+
+
+
+
+P:=PolynomialRing(GF(2),100);
+L:=LieAlgebra("C4",P);
+
+R,B:=RootSystem(L);
+
+e:=B[1]+B[2]+B[3]+B[4];
+f:=L!0;
+
+for i in [1..36] do
+f:=f+P.i*L.i; 
+end for;
+
+f*e*e - e; 
+
+
+
+
+P:=PolynomialRing(GF(2),100);
+L:=LieAlgebra("D4",P:Isogeny:="SC");
+
+R,B:=RootSystem(L);
+
+e:=B[1]+B[2]+B[3]+B[16];
+f:=L!0;
+
+for i in [1..36] do
+f:=f+P.i*L.i; 
+end for;
+
+f*e - e; 
+
+
+P:=PolynomialRing(GF(2),100);
+L:=LieAlgebra("C4",P);
+
+R,B:=RootSystem(L);
+
+e:=B[1]+B[2]+B[3]+B[16];
+f:=L!0;
+
+for i in [1..36] do
+f:=f+P.i*L.i; 
+end for;
+
+f*e*e - e; 
+
+
+
